@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-
 import { NextRequest } from 'next/server';
 import prisma from '../../utils/db';
 
