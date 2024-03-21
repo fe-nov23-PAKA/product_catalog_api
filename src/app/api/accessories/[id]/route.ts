@@ -10,20 +10,20 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const Accessory = await prisma.accessories.findUnique({
+    const accessory = await prisma.accessories.findUnique({
       where: {
         id,
       },
     });
 
-    if (!Accessory) {
+    if (!accessory) {
       return Response.json(
         { error: `Accessory with id ${id} not found` },
         { status: 404 },
       );
     }
 
-    return Response.json(Accessory);
+    return Response.json(accessory);
   } catch (error) {
     return Response.json(
       { error: 'Error updating accessory' },
