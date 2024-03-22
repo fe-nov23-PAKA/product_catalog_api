@@ -1,6 +1,6 @@
 const Pagination = () => {
   return (
-    <div>
+    <div className="mx-auto">
       <div className="flex">
         <a
           href="#"

@@ -7,11 +7,13 @@ import Table from '../Table/Table';
 const Main = () => {
   return (
     <div className="flex-1">
-      <div className='flex'>
-      <SideBar />
-      <Table />
+      <div className="flex">
+        <SideBar />
+        <div className="flex flex-col justify-between w-full mb-12">
+          <Table />
+          <Pagination />
+        </div>
       </div>
-      <Pagination />
     </div>
   );
 };
