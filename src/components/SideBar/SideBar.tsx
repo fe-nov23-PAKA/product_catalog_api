@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -31,7 +33,7 @@ const SideBar = () => {
             <li>
               <Link
                 href="/phones"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`link ${pathname === '/phones' ? 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white dark:bg-gray-700 group' : 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group'}`}
               >
                 <Image
                   src="/images/smartphone.svg"
@@ -45,7 +47,7 @@ const SideBar = () => {
             <li>
               <Link
                 href="/tablets"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`link ${pathname === '/tablets' ? 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white dark:bg-gray-700 group' : 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group'}`}
               >
                 <Image
                   src="/images/tablet.svg"
@@ -59,7 +61,7 @@ const SideBar = () => {
             <li>
               <Link
                 href="/accessories"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`link ${pathname === '/accessories' ? 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white dark:bg-gray-700 group' : 'flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group'}`}
               >
                 <Image
                   src="/images/watch.svg"

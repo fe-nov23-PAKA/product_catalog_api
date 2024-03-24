@@ -2,7 +2,12 @@ import { Tablets } from '@prisma/client';
 import Image from 'next/image';
 import React from 'react';
 
-export const TableRow = ({ tablet }: { tablet: Tablets }) => (
+type Props = {
+  tablet: Tablets;
+  onDelete: () => void;
+};
+
+export const TableRow: React.FC<Props> = ({ tablet, onDelete }) => (
   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
     <th
       scope="row"
@@ -21,9 +26,9 @@ export const TableRow = ({ tablet }: { tablet: Tablets }) => (
         >
           Edit
         </a>
-        <a href="#">
+        <button onClick={onDelete}>
           <Image src="/images/trash.svg" width={18} height={18} alt="sas" />
-        </a>
+        </button>
       </div>
     </td>
     <td className="px-6 py-4">
