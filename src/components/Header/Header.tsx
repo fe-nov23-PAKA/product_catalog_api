@@ -14,13 +14,28 @@ const Header = () => {
       <header className="bg-gray-800 p-4 flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-4">
-            <a className="text-white font-bold text-xl">Nice Gadgets</a>
+            <a className="text-white font-bold text-xl cursor-pointer">
+              Nice Gadgets
+            </a>
           </div>
-          <nav className="hidden md:flex space-x-4">
-            <a className="text-white hover:text-gray-300">Phones</a>
-            <a className="text-white hover:text-gray-300">Tablets</a>
-            <a className="text-white hover:text-gray-300">Accsesoraise</a>
-          </nav>
+          <div
+            id="search-bar"
+            className="w-[420px] bg-white rounded-md shadow-lg z-10 ml-24"
+          >
+            <form className="flex items-center justify-center p-2">
+              <input
+                type="text"
+                placeholder="Search here"
+                className="w-full rounded-md px-2 py-1 focus:ring-2 focus:ring-gray-600 focus:border-transparent"
+              ></input>
+              <button
+                type="submit"
+                className="bg-gray-800 text-white rounded-md px-4 py-1 ml-2 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
+              >
+                Search
+              </button>
+            </form>
+          </div>
         </div>
         <div className="flex items-center">
           <button
@@ -60,7 +75,7 @@ const Header = () => {
             )}
           </button>
           <nav
-            className={`${isMenuOpen ? 'flex' : 'hidden'} md:hidden flex-col w-full items-center absolute top-full left-1/2 transform -translate-x-1/2 bg-gray-800 p-4`}
+            className={`${isMenuOpen ? 'flex' : 'hidden'} md:hidden flex-col w-full items-center absolute top-full left-1/2 transform -translate-x-1/2 bg-gray-800 p-4 z-50 h-screen`}
           >
             <a className="text-white hover:text-gray-300">About</a>
             <a className="text-white hover:text-gray-300">Services</a>

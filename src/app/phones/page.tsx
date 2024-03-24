@@ -1,12 +1,12 @@
-/* eslint-disable no-console */
 'use client';
 
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { TableRow } from '../TableRow/TableRowPhones';
+/* eslint-disable no-console */
 import { Phones } from '@prisma/client';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { TableRow } from '../../components/TableRow/TableRowPhones';
 
-const Table = () => {
+const PhonesPage = () => {
   const [phones, setPhones] = useState<Phones[]>([]);
 
   useEffect(() => {
@@ -353,4 +353,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default PhonesPage;

@@ -1,6 +1,6 @@
-import EditProduct from '../EditProduct/EditProduct';
+// import EditProduct from '../EditProduct/EditProduct';
 import Pagination from '../Pagination/Pagination';
-import SearchBar from '../SearchBar/SearchBar';
+// import SearchBar from '../SearchBar/SearchBar';
 import SideBar from '../SideBar/SideBar';
 import Table from '../Table/Table';
 

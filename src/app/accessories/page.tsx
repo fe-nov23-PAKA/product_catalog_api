@@ -1,18 +1,18 @@
-/* eslint-disable no-console */
 'use client';
 
+/* eslint-disable no-console */
+import { Accessories } from '@prisma/client';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { TableRow } from '../TableRow/TableRowPhones';
-import { Phones } from '@prisma/client';
+import { useEffect, useState } from 'react';
+import { TableRow } from '../../components/TableRow/TableRowAccessories';
 
-const Table = () => {
-  const [phones, setPhones] = useState<Phones[]>([]);
+const TabletsPage = () => {
+  const [accessories, setAccessories] = useState<Accessories[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/phones');
+        const response = await fetch('/api/accessories');
 
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -20,7 +20,7 @@ const Table = () => {
 
         const data = await response.json();
 
-        setPhones(data);
+        setAccessories(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -55,8 +55,8 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {phones.map((phone) => (
-            <TableRow key={phone.id} phone={phone} />
+          {accessories.map((accessorie) => (
+            <TableRow key={accessorie.id} accessorie={accessorie} />
           ))}
 
           <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -353,4 +353,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default TabletsPage;
