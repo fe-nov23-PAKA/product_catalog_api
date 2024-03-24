@@ -1,13 +1,14 @@
 'use client';
 
 /* eslint-disable no-console */
-import { Phones } from '@prisma/client';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { Phones } from '@prisma/client';
 import { TableRow } from '../../components/TableRow/TableRowPhones';
 
 const PhonesPage = () => {
   const [phones, setPhones] = useState<Phones[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,328 +28,118 @@ const PhonesPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(phones.length / itemsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleGoToStart = () => {
+    setCurrentPage(1);
+  };
+
+  const handleGoToEnd = () => {
+    setCurrentPage(totalPages);
+  };
+
+  const handleChangeItemsPerPage = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setItemsPerPage(parseInt(event.target.value));
+    setCurrentPage(1);
+  };
+
+  const handleDeletePhone = async (id: string) => {
+    try {
+      const response = await fetch(`/api/phones/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete phone');
+      }
+
+      setPhones(phones.filter((phone) => phone.id !== id));
+    } catch (error) {
+      console.error('Error deleting phone:', error);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, phones.length);
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-4">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Product_ID
-            </th>
-            <th scope="col" className="px-6 py-3">
-              namespace_ID
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Price_Regular
-            </th>
-            <th scope="col" className="px-6 py-3">
-              price_Discount
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Create
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {phones.map((phone) => (
-            <TableRow key={phone.id} phone={phone} />
-          ))}
-
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              apple-iphone-11-128gb-black
-            </th>
-            <td className="px-6 py-4">apple-iphone-11</td>
-            <td className="px-6 py-4">1100</td>
-            <td className="px-6 py-4">1050</td>
-            <td className="px-6 py-4">
-              <div className="flex gap-x-4 items-center h-full">
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </a>
-                <a href="#">
-                  <Image
-                    src="/images/trash.svg"
-                    width={18}
-                    height={18}
-                    alt="sas"
-                  />
-                </a>
-              </div>
-            </td>
-            <td className="px-6 py-4">
-              <button className="bg-black px-2 py-2 rounded-md">Add new</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="">
+      <div>
+        <span>Items per page: </span>
+        <select value={itemsPerPage} onChange={handleChangeItemsPerPage}>
+          <option value={10}>10</option>
+          <option value={15}>15</option>
+          <option value={20}>20</option>
+        </select>
+      </div>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-4">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Product_ID
+              </th>
+              <th scope="col" className="px-6 py-3">
+                namespace_ID
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Price_Regular
+              </th>
+              <th scope="col" className="px-6 py-3">
+                price_Discount
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Create
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {phones.slice(startIndex, endIndex).map((phone) => (
+              <TableRow
+                key={phone.id}
+                phone={phone}
+                onDelete={() => handleDeletePhone(phone.id)}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex justify-between items-center">
+        <button onClick={handleGoToStart} disabled={currentPage === 1}>
+          Go to Start
+        </button>
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          Next
+        </button>
+        <button onClick={handleGoToEnd} disabled={currentPage === totalPages}>
+          Go to End
+        </button>
+      </div>
     </div>
   );
 };
