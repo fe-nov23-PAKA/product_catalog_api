@@ -5,14 +5,9 @@ import React from 'react';
 type Props = {
   phone: Phones;
   onDelete: () => void;
-  handleShowModal: () => void;
 };
 
-export const TableRow: React.FC<Props> = ({
-  phone,
-  onDelete,
-  handleShowModal,
-}) => {
+export const TableRow: React.FC<Props> = ({ phone, onDelete }) => {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       <th
@@ -36,14 +31,6 @@ export const TableRow: React.FC<Props> = ({
             <Image src="/images/trash.svg" width={18} height={18} alt="sas" />
           </button>
         </div>
-      </td>
-      <td className="px-6 py-4">
-        <button
-          className="bg-black px-2 py-2 rounded-md"
-          onClick={handleShowModal}
-        >
-          Add new
-        </button>
       </td>
     </tr>
   );
