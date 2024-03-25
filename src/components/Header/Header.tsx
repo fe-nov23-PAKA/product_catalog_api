@@ -1,8 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
-const Header = () => {
+type Props = {
+  setQuery: Dispatch<SetStateAction<string>>;
+  query: string;
+};
+
+const Header: React.FC<Props> = ({ query, setQuery }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -14,23 +19,25 @@ const Header = () => {
       <header className="bg-gray-800 p-4 flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-4">
-            <a className="text-white font-bold text-xl cursor-pointer">
+            <a className="text-white font-bold text-xl cursor-pointer" href="/">
               Nice Gadgets
             </a>
           </div>
           <div
             id="search-bar"
-            className="w-[420px] bg-white rounded-md shadow-lg z-10 ml-24"
+            className="w-[420px] bg-gray-700 rounded-md shadow-lg z-10 ml-24"
           >
             <form className="flex items-center justify-center p-2">
               <input
                 type="text"
                 placeholder="Search here"
-                className="w-full rounded-md px-2 py-1 focus:ring-2 focus:ring-gray-600 focus:border-transparent"
+                className="w-full text-white rounded-md px-2 py-1 bg-gray-700 focus:border-transparent"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
               ></input>
               <button
                 type="submit"
-                className="bg-gray-800 text-white rounded-md px-4 py-1 ml-2 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
+                className="bg-gray-900 text-white rounded-md px-4 py-1 ml-2 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
               >
                 Search
               </button>

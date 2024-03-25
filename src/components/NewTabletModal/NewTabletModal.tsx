@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
-import { Phones } from '@prisma/client';
+import { Tablets } from '@prisma/client';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 type Props = {
-  onSave: (newPhone: Phones) => void;
+  onSave: (newTablet: Tablets) => void;
   onClose: () => void;
 };
 
-const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
+const NewTabletModal: React.FC<Props> = ({ onSave, onClose }) => {
   const [formData, setFormData] = useState({
     id: '',
     namespaceId: '',
@@ -30,7 +30,7 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
     cell: [''],
   });
 
-  const handleChange = (e , key) => {
+  const handleChange = (e, key) => {
     const value = e.target.value;
 
     setFormData((prevState) => ({
@@ -42,7 +42,7 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/phones', {
+      const response = await fetch('/api/tablets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,13 +51,13 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add phone');
+        throw new Error('Failed to add tablet');
       }
 
       onSave(formData);
       onClose();
     } catch (error) {
-      console.error('Error adding phone:', error);
+      console.error('Error adding tablet:', error);
     }
   };
 
@@ -68,7 +68,7 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
         <div className="modal-content">
           <div className="flex justify-between mt-6 px-6 items-center mb-6">
             <h1 className="text-white font-bold text-3xl">
-              Create a new phone
+              Create a new tablet
             </h1>
             <button className="" onClick={onClose}>
               <Image
@@ -110,4 +110,4 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
   );
 };
 
-export default NewPhoneModal;
+export default NewTabletModal;

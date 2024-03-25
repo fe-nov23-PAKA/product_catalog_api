@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import { Phones } from '@prisma/client';
+import { Accessories } from '@prisma/client';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 type Props = {
-  onSave: (newPhone: Phones) => void;
+  onSave: (newPhone: Accessories) => void;
   onClose: () => void;
 };
 
@@ -25,8 +25,6 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
     resolution: '',
     processor: '',
     ram: '',
-    camera: '',
-    zoom: '',
     cell: [''],
   });
 
@@ -42,7 +40,7 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/phones', {
+      const response = await fetch('/api/accessories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,13 +49,13 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add phone');
+        throw new Error('Failed to add accessorie');
       }
 
       onSave(formData);
       onClose();
     } catch (error) {
-      console.error('Error adding phone:', error);
+      console.error('Error adding accessorie:', error);
     }
   };
 
@@ -68,7 +66,7 @@ const NewPhoneModal: React.FC<Props> = ({ onSave, onClose }) => {
         <div className="modal-content">
           <div className="flex justify-between mt-6 px-6 items-center mb-6">
             <h1 className="text-white font-bold text-3xl">
-              Create a new phone
+              Create a new accessorie
             </h1>
             <button className="" onClick={onClose}>
               <Image
